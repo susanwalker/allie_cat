@@ -5,4 +5,5 @@ A simple pacman type game with cats chasing cat treats.
 - Cat Class
 - Maze Class
 - Treat Class
-- Interface 
+- View
+- Controller  
