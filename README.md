@@ -2,8 +2,9 @@
 A simple pacman type game with cats chasing cat treats.
 
 ## TODO
-- Cat Class
-- Maze Class
-- Treat Class
-- View
-- Controller  
+- [X] Models
+  - [X] Cat Class
+  - [X] Maze Class
+  - [X] Treat Class
+- [ ] View
+- [ ] Controller  
