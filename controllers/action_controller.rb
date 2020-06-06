@@ -24,9 +24,9 @@ class ActionController
   end
 
   def perform_left
-    return if @cat.x <= 0
+    return if @cat.x <= 1
 
-    @cat.x -= 1
+    @cat.x -= 2
   end
 
   def perform_down
@@ -36,8 +36,8 @@ class ActionController
   end
 
   def perform_right
-    return if @cat.x >= @maze.width
+    return if @cat.x >= @maze.width - 1
 
-    @cat.x += 1
+    @cat.x += 2
   end
 end
