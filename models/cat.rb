@@ -1,4 +1,8 @@
+# Define Cat behavior
+# Defines Cat icon and positions
 class Cat
+  # attr_accessor allows us to update x, y even after initialization
+  # for example, see action controller class
   attr_accessor :x, :y
 
   def initialize(x_value, y_value)
