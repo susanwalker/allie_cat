@@ -2,14 +2,16 @@
 # views
 
 # Allows game.rb to use Cat defined in models/cat.rb
-require './models/cat'
-require './models/maze'
-require './models/treat'
-require './controllers/action_controller'
-require './views/terminal'
+require './entities/cat'
+require './entities/maze'
+require './entities/treat'
+require './components/user_input_processor'
+require './interfaces/terminal'
 
 # variable cat and class Cat
 cat = Cat.new(0, 0)
+
+walls = []
 
 # backtics are used call terminal commands
 # backtics always return a string because that's terminal output, so
@@ -19,22 +21,22 @@ cat = Cat.new(0, 0)
 terminal_height = `tput li`.to_i
 terminal_width = `tput co`.to_i
 
-maze = Maze.new(terminal_height, terminal_width)
-
 treats = [
   Treat.new(terminal_width / 2, terminal_height / 2),
   Treat.new(terminal_width / 2, 0)
 ]
 
-terminal = Terminal.new(cat, treats)
+maze = Maze.new(terminal_height, terminal_width, cat, treats, walls)
+
+terminal = Terminal.new(maze)
 terminal.init
 terminal.render
 
 loop do
   input = $stdin.getc
-  controller = ActionController.new(input, cat, treats, maze)
+  uip = UserInputProcessor.new(input, maze)
   terminal.clear
-  controller.process_input
+  uip.process_input
 
   terminal.render
 rescue SignalException

@@ -10,6 +10,14 @@ class Cat
     @y = y_value
   end
 
+  def height
+    1
+  end
+
+  def width
+    icon.length
+  end
+
   def icon
     "(>^_^<)"
   end
