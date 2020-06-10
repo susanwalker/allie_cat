@@ -7,5 +7,5 @@ A simple pacman type game with cats chasing cat treats.
   - [X] Maze Class
   - [X] Treat Class
   - [X] Wall Class
-- [ ] interfaces
-- [ ] user_input_processor  
+- [X] interfaces
+- [X] user_input_processor  
