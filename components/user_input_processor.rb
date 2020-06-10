@@ -23,6 +23,17 @@ class UserInputProcessor
 
     update_treats
   end
+  
+  def overlapping?(entity_1, entity_2)
+    (
+      entity_1.x >= entity_2.x && (entity_1.x < (entity_2.x + entity_2.width)) ||
+      entity_2.x >= entity_1.x && (entity_2.x < (entity_1.x + entity_1.width))
+    ) &&
+    (
+      entity_1.y >= entity_2.y && (entity_1.y < (entity_2.y + entity_2.height)) ||
+      entity_2.y >= entity_1.y && (entity_2.y < (entity_1.y + entity_1.height))
+    )
+  end
 
   private
 
@@ -70,16 +81,5 @@ class UserInputProcessor
     @maze.treats.delete_if do |treat|
       overlapping?(@maze.cat, treat)
     end
-  end
-
-  def overlapping?(entity_1, entity_2)
-    (
-      entity_1.x >= entity_2.x && (entity_1.x < (entity_2.x + entity_2.width)) ||
-      entity_2.x >= entity_1.x && (entity_2.x < (entity_1.x + entity_1.width))
-    ) &&
-    (
-      entity_1.y >= entity_2.y && (entity_1.y < (entity_2.y + entity_2.height)) ||
-      entity_2.y >= entity_1.y && (entity_2.y < (entity_1.y + entity_1.height))
-    )
   end
 end

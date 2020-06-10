@@ -17,17 +17,52 @@ cat = Cat.new(0, 0)
 terminal_height = `tput li`.to_i
 terminal_width = `tput co`.to_i
 
-# TODO: extract this to a maze generator
-walls = [
-  Wall.new(terminal_height / 2, 4, terminal_width / 4, 0),
-  Wall.new(2, terminal_width / 4, 3 * terminal_width / 8, terminal_height / 4)
-]
+def overlapping?(entity_1, entity_2)
+  (
+    entity_1.x >= entity_2.x && (entity_1.x < (entity_2.x + entity_2.width)) ||
+    entity_2.x >= entity_1.x && (entity_2.x < (entity_1.x + entity_1.width))
+  ) &&
+  (
+    entity_1.y >= entity_2.y && (entity_1.y < (entity_2.y + entity_2.height)) ||
+    entity_2.y >= entity_1.y && (entity_2.y < (entity_1.y + entity_1.height))
+  )
+end
 
-# TODO: extract this to maze generator
-treats = [
-  Treat.new(terminal_width / 2, terminal_height / 2),
-  Treat.new(terminal_width / 2, 0)
-]
+num_walls = [3, 4, 5].sample
+walls = []
+
+def generate_wall(terminal_height, terminal_width)
+  wall_height = (2..(terminal_height / 2)).to_a.sample
+  wall_width = (2..(terminal_width / 2)).to_a.sample
+  wall_x = (1..(terminal_width - 1)).to_a.sample
+  wall_y = (1..(terminal_height - 1)).to_a.sample
+
+  Wall.new(wall_height, wall_width, wall_x, wall_y)
+end
+
+num_walls.times do
+  wall = generate_wall(terminal_height, terminal_width)
+
+  walls << wall unless overlapping?(wall, cat)
+end
+
+num_treats = (10..15).to_a.sample
+treats = []
+
+def generate_treat(terminal_height, terminal_width)
+  treat_x = (1..(terminal_width - 1)).to_a.sample
+  treat_y = (1..(terminal_height - 1)).to_a.sample
+
+  Treat.new(treat_x, treat_y)
+end
+
+num_treats.times do
+  treat = generate_treat(terminal_height, terminal_width)
+
+  unless overlapping?(treat, cat) || walls.any? { |wall| overlapping?(treat, wall) }
+    treats << treat
+  end
+end
 
 maze = Maze.new(terminal_height, terminal_width, cat, treats, walls)
 
