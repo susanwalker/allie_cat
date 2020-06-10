@@ -6,12 +6,26 @@ class Terminal
 
   def render
     render_entity(@maze.cat)
-    render_treats
+
+    @maze.walls.each do |wall|
+      render_wall(wall)
+    end
+
+    @maze.treats.each do |treat|
+      render_entity(treat)
+    end
   end
 
   def clear
     clear_entity(@maze.cat)
-    clear_treats
+
+    @maze.walls.each do |wall|
+      clear_wall(wall)
+    end
+
+    @maze.treats.each do |treat|
+      clear_entity(treat)
+    end
   end
 
   # Initiaizes terminal and removes cursor and other settings
@@ -25,6 +39,9 @@ class Terminal
   end
 
   private
+  # private methods are only called in the defining class itself
+  # helps with keeping code organized and self-documents code
+  # "interface segreation"
 
   def render_entity(entity)
     print "\033[#{entity.y};#{entity.x}H\033[0;33m#{entity.icon}"
@@ -32,19 +49,34 @@ class Terminal
 
   def clear_entity(entity)
     clear_string = ''
-    entity.width.times { clear_string << ' ' }
+    # defined as an empty string, then append spaces equal to the width of the
+    # entity
+    entity.width.times do
+      clear_string << ' '
+    end
+
     print "\033[#{entity.y};#{entity.x}H\033[0;33m#{clear_string}"
   end
 
-  def render_treats
-    @maze.treats.each do |treat|
-      render_entity(treat)
+  def render_wall(wall)
+    wall_string = ''
+    wall.width.times do
+      wall_string << '|'
+    end
+
+    wall.height.times do |index|
+      print "\033[#{wall.y + index};#{wall.x}H\033[0;33m#{wall_string}"
     end
   end
 
-  def clear_treats
-    @maze.treats.each do |treat|
-      clear_entity(treat)
+  def clear_wall(wall)
+    clear_string = ''
+    wall.width.times do
+      clear_string << ' '
+    end
+
+    wall.height.times do |index|
+      print "\033[#{wall.y + index};#{wall.x}H\033[0;33m#{clear_string}"
     end
   end
 end

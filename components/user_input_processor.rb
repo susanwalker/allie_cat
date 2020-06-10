@@ -30,24 +30,40 @@ class UserInputProcessor
     return if @maze.cat.y < Y_SPEED
 
     @maze.cat.y -= Y_SPEED # same as @maze.cat.y = @maze.cat.y - Y_SPEED
+
+    if @maze.walls.any? { |wall| overlapping?(@maze.cat, wall) }
+      @maze.cat.y += Y_SPEED
+    end
   end
 
   def perform_left
     return if @maze.cat.x < X_SPEED
 
     @maze.cat.x -= X_SPEED
+
+    if @maze.walls.any? { |wall| overlapping?(@maze.cat, wall) }
+      @maze.cat.x += X_SPEED
+    end
   end
 
   def perform_down
     return if @maze.cat.y > @maze.height - Y_SPEED
 
     @maze.cat.y += Y_SPEED
+
+    if @maze.walls.any? { |wall| overlapping?(@maze.cat, wall) }
+      @maze.cat.y -= Y_SPEED
+    end
   end
 
   def perform_right
     return if @maze.cat.x > @maze.width - X_SPEED
 
     @maze.cat.x += X_SPEED
+
+    if @maze.walls.any? { |wall| overlapping?(@maze.cat, wall) }
+      @maze.cat.x -= X_SPEED
+    end
   end
 
   def update_treats
