@@ -29,6 +29,7 @@ class Terminal
   end
 
   # Initiaizes terminal and removes cursor and other settings
+  # NCurses
   def init
     system 'tput civis; stty -icanon; stty -echo; clear'
   end
